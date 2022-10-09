@@ -7,6 +7,10 @@ Ax = b
 
 In the future, I will improve the program so that it will accept more variations of LP.
 
+The program would produce the optimal solution, as well as the steps.
+
+
+
 ## input:
 The program can be run with no or one text file as an argument, if no text tile is provided, the program will run with the provided example.
 
