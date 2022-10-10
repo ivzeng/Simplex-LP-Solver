@@ -12,19 +12,7 @@ import sys
 
 # read input file
 def readIn():
-	if len(sys.argv) == 1:
-		dm = [4, 8]
-		A = np.array([
-			[ 1,-1, 0, 1,-1, 1, 0, 0 ],
-			[ 1,-1,-2, 0, 2, 0, 1, 0 ],
-			[ 1,-1, 1,-1, 0, 0, 0, 1 ],
-			[ 0, 0, 1, 1, 1, 0, 0, 0 ]
-		])
-		b = np.array([ 0, 0, 0, 1])
-		c = np.array([ 1, -1, 0, 0, 0, 0, 0, 0])
-		z = 0
-		return dm, A, b, c, z
-	with open(sys.argv[1], 'r') as input:
+	with open('defaultIn.txt' if len(sys.argv) == 1 else sys.argv[1], 'r') as input:
 		dm = getList(input.readline())
 		A = np.array([getList(input.readline(), type = 1) for i in range(dm[0])])
 		b = np.array(getList(input.readline(), type = 1))
