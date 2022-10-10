@@ -26,10 +26,10 @@ def readIn():
 		return dm, A, b, c, z
 	with open(sys.argv[1], 'r') as input:
 		dm = getList(input.readline())
-		A = np.array([getList(input.readline()) for i in range(dm[0])])
-		b = np.array(getList(input.readline()))
-		c = np.array(getList(input.readline()))
-		z = int(input.readline())
+		A = np.array([getList(input.readline(), type = 1) for i in range(dm[0])])
+		b = np.array(getList(input.readline(), type = 1))
+		c = np.array(getList(input.readline(), type = 1))
+		z = getNum(input.readline(), type = 1)
 	return dm, A, b, c, z
 
 # compare vector, return [a,b,c]
@@ -72,14 +72,26 @@ def checkIn(dm, A, b, c):
 		print("invalid input: c, x and A's row have different lengths")
 		return -2
 	return dm
+# convert a floating point number into fraction
+def NumToFrac(n):
+	return str(Fraction(n).limit_denominator())
 
 # print a Row
 def printRow(r, wid):
-	print('[', ' '.join([('{0: <'+str(wid)+'}').format(x) for x in [str(Fraction(i).limit_denominator()) for i in r]]), ']')
+	print('[', ' '.join([('{0: <'+str(wid)+'}').format(x) for x in [NumToFrac(i) for i in r]]), ']')
+
+# convert string to a number, type = 0 if the number is int, otherwise the number is float
+def getNum(n, type = 0):
+	if type == 0:
+		return int(n)
+	n = [float(i) for i in n.split('/')]
+	if len(n) == 1:
+		return n[0]
+	return n[0]/n[1]
 
 # convert to an integer list
-def getList(line):
-	return [int(i) for i in line.split()]
+def getList(line, type = 0):
+	return [getNum(i, type) for i in line.split()]
 
 # print system
 def printls(A, b, c, z, yt = 0,x = 0):
@@ -113,12 +125,13 @@ def canonical(A, b, c, z, dm, idxs_in = []):
 		yt = np.matmul(A_b_iv.T, c[idxs_in])
 		nc = c - np.matmul(yt, A)
 		nz = z + np.matmul(yt, b)
-		printls(nA, nb, nc, nz, yt, bx)
-		return  nA, nb, nc, nz, bx, idxs_in
+		return  nA, nb, nc, nz, yt, bx, idxs_in
 
 	if len(idxs_in) != 0:
 		idxs_in.sort()
-		return convertSystem(getBasis(A, dm, idxs_in))
+		nA, nb, nc, nz, yt, bx, idxs_in = convertSystem(getBasis(A, dm, idxs_in))
+		printls(nA, nb, nc, nz, yt, bx)
+		return  nA, nb, nc, nz, bx, idxs_in
 	done = False
 	while not done:
 		print('choose', dm[0], 'columns to form a basis')
@@ -139,13 +152,15 @@ def canonical(A, b, c, z, dm, idxs_in = []):
 			A_b = getBasis(A, dm, idxs_in)
 			print('Basis selected:\n', A_b)
 
-		nA, nb, nc, nz, bx, idxs_in = convertSystem(A_b)
+		nA, nb, nc, nz, yt, bx, idxs_in = convertSystem(A_b)
 		# check feasibility of the basis
 		if (cmp0(nb.round(5), lambda a: a < 0) != 0):
 			print("basic solution:", bx, " is not feasible, please try again")
 			continue
+		print('Successfully converted the system into canonical form,')
+		printls(nA, nb, nc, nz, yt, bx)
 		print("good? (1: yes, 0: no)")
-		if int(input()) == 1:
+		if input() == '1':
 			done  = True
 	return nA, nb, nc, nz, bx, idxs_in
 
@@ -163,11 +178,12 @@ def getBasis(A, dm, idxs):
 # updata basis indices
 def updateBI(A, b, dm, k, B):
 	rt = [-1 if A[i][k] <= 0 else b[i]/A[i][k] for i in range(dm[0])]
-	# print('rt: ',rt)
-	curmin, cmp = -1, 0
-	for i in range(1, dm[0]):
-		if rt[i] != -1 and (curmin < 0 or curmin > rt[i]):
+	print('ratio test: ',rt)
+	curmin, cmp = 0, 0
+	for i in range(0, dm[0]):
+		if rt[i] != -1 and (curmin == 0 or curmin > rt[i]):
 			curmin, cmp = rt[i], i
+	print('index', B[cmp], 'is removed, index', k, 'is added to from a basis')
 	B[cmp] = k
 	# print('B:', B)
 	return B
@@ -185,23 +201,31 @@ def simplex(dm, A, b, c, z):
 	dm = checkIn(dm, A, b, c)
 	if (type(dm) is int):
 		return -1
+	print('Input system')
 	printls(A, b, c, z)
 	A, b, c, z, x, B = canonical(A, b, c, z, dm)
 	k = pstCpn(c.round(5))
+	stepCount = 1
 	while k != -1:
 	# print([A[i][k] for i in range(dm[0])])
 		if cmp0(np.array([A[i][k] for i in range(dm[0])]).round(5), lambda a: a > 0) == 0:
 			print('unbounded solution')
 			return 0
+		print()
+		print('step', str(stepCount) + ':')
 		B = updateBI(A, b, dm, k, B)
 		A, b, c, z, x, B = canonical(A, b, c, z, dm, B)
 		k = pstCpn(c.round(5))
+		stepCount += 1
 		input()
-	print('final stage:')
-	printls(A, b, c , z, x = x)
+	print()
+	print("The solution")
+	print('z =')
+	print(NumToFrac(z))
+	print('with')
+	print('x =')
+	printRow(x, 8)
 	print("is optimal")
- 
-
 
 
 ##### solve #####
