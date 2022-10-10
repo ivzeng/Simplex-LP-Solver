@@ -48,6 +48,6 @@ c<sub>i</sub> is the i<sup>th</sup> element of c;
 z is a constant.
 
 ## process
-The program would first try to convert the system into [Canonical form](https://en.wikipedia.org/wiki/Canonical_form#:~:text=In%20mathematics%20and%20computer%20science,identified%20in%20a%20unique%20way). This requires user to choose columns from A to get a basis. (In the future I will make the program select a feasible basis itself if the user input nothing.) If the select columns can form a basis that produces a feasible basic solution for x, the program would ask for user to confirm.
+ The program would first try to convert the system into [Canonical form](https://en.wikipedia.org/wiki/Canonical_form#:~:text=In%20mathematics%20and%20computer%20science,identified%20in%20a%20unique%20way).This requires the user to choose columns from A to get a basis. (In the future I will make the program select a feasible basis itself if the user inputs nothing.) If the select columns can form a basis that produces a feasible basic solution for x, the program would ask the user to confirm.
 
-After a feasible basis is selected, the program would start the iteration, one step at a time. The user can press enter to see the result of next step, until an optimal solution is found.
+After a feasible basis is selected, the program would start the iteration, one step at a time. The user can press enter to see the result of the next step until an optimal solution is found.
