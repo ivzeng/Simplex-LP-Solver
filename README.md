@@ -12,12 +12,18 @@ The program would produce the optimal solution, as well as the steps.
 
 
 ## input:
-The program can be run with no or one text file as an argument, if no text tile is provided, the program will run with the provided example.
+The program can be run with no or one text file as an argument, if no text tile is provided, the program will run with the provided default example.
 
-The given file should consist of lines containing only integers (or maybe decimal numbers and fractions in the future version), separated by spaces. Although the program provides a basic check of the numerical input,
-invalid input may still cause the program to crash. (So please be nice to my program 'v'.)
+To start the program, run the any one of the following commands:
 
-The text file should be like this:
+```
+Python simplex.py (name of input file)
+Python simplex.py 
+```
+
+The given file should consist of lines containing only integers or decimal numbers or fractions, separated by spaces or tab. Although the program provides a basic check of the numerical input, invalid input may still cause the program to crash. (So please be nice to my program 'v'.)
+
+The input file should be like this:
 
 <pre>
 m n
@@ -40,3 +46,8 @@ b<sub>i</sub> is the i<sup>th</sup> element of b;
 c<sub>i</sub> is the i<sup>th</sup> element of c;
 
 z is a constant.
+
+## process
+The program would first try to convert the system into [Canonical form](https://en.wikipedia.org/wiki/Canonical_form#:~:text=In%20mathematics%20and%20computer%20science,identified%20in%20a%20unique%20way). This requires user to choose columns from A to get a basis. (In the future I will make the program select a feasible basis itself if the user input nothing.) If the select columns can form a basis that produces a feasible basic solution for x, the program would ask for user to confirm.
+
+After a feasible basis is selected, the program would start the iteration, one step at a time. The user can press enter to see the result of next step.
