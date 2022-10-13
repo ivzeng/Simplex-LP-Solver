@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-
-from tabnanny import check
 import numpy as np
 from numpy.linalg import matrix_rank
 from fractions import Fraction
