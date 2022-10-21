@@ -14,7 +14,7 @@ The program would produce the optimal solution, as well as the steps.
 ## input:
 The program can be run with no or one text file as an argument, if no text tile is provided, the program will run with the provided default example.
 
-To start the program, run the any one of the following commands:
+To run it, try something like the following:
 
 ```
 Python simplex.py (name of input file)
@@ -47,7 +47,17 @@ c<sub>i</sub> is the i<sup>th</sup> element of c;
 
 z is a constant.
 
-## process
- The program would first try to convert the system into [Canonical form](https://en.wikipedia.org/wiki/Canonical_form#:~:text=In%20mathematics%20and%20computer%20science,identified%20in%20a%20unique%20way).This requires the user to choose columns from A to get a basis. (In the future I will make the program select a feasible basis itself if the user inputs nothing.) If the select columns can form a basis that produces a feasible basic solution for x, the program would ask the user to confirm.
+## functions:
 
-After a feasible basis is selected, the program would start the iteration, one step at a time. The user can press enter to see the result of the next step until an optimal solution is found.
+#
+```
+readIn() -> LP
+```
+
+This function would convert the input to an LP, which consists of [m, n], A, b, c, z
+
+#
+```
+simplex(LP, init_B = [], mode = 'a')
+```
+This function, by default, would produce the result of the LP (optimal cx and x if they exist). Set the mode = 's' to see detailed step or 'r' to see the basic result.
