@@ -1,7 +1,5 @@
-# Mixed_Nash_Equilibrium_Solver
-The project include various tools for game theory and optimization, including a simplex calculator and more in the future.
+# Simplex Algorithm
 
-# Simplex
 This is a python implementation of the simplex algorithm.
 The program would take a valid linear programming problem, in form of:
 
