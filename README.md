@@ -3,8 +3,8 @@
 This is a python implementation of the simplex algorithm.
 The program would take a valid linear programming problem, in form of:
 
-max(cx+z) subjected to:
-Ax = b
+$max(cx+z)$ subjected to:
+$Ax = b$
 
 In the future, I will improve the program so that it will accept more variations of LP.
 
